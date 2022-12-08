@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:library_management_app/models/book.dart';
 import 'package:library_management_app/services/book_service.dart';
 
 class HomeController extends GetxController {
@@ -69,5 +70,45 @@ class HomeController extends GetxController {
     }
     // errorMessage = result['message'];
     return {'status': false, 'message': result['message']};
+  }
+
+  Future<bool> delete(int bookId) async {
+    isLoading(true);
+    final result = await bookService.deleteBook(bookId);
+    isLoading(false);
+    if (result['status'] == 200) {
+      List newList = books;
+      newList.removeWhere((book) => book.id == bookId);
+      allBooks(newList);
+      return true;
+    }
+    errorMessage = result['message'];
+    return false;
+  }
+
+  Future<bool> toggleAvailability(int bookId) async {
+    isLoading(true);
+    final result = await bookService.toggleAvailability(bookId);
+    isLoading(false);
+    if (result['status'] == 200) {
+      List newList = books;
+      // newList.removeWhere((book) => book.id == bookId);
+      final book = newList.firstWhere((book) => book.id == bookId);
+      int index = newList.indexWhere((book) => book.id == bookId);
+      newList.removeWhere((book) => book.id == bookId);
+      newList.insert(
+          index,
+          Book(
+              id: book.id,
+              name: book.name,
+              description: book.description,
+              publisher: book.publisher,
+              author: book.author,
+              available: !book.available));
+      allBooks(newList);
+      return true;
+    }
+    errorMessage = result['message'];
+    return false;
   }
 }

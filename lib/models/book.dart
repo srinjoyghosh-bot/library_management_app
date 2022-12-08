@@ -14,6 +14,10 @@ class Book {
     required this.available,
   });
 
+  void toggleAvailability() {
+    available = !available;
+  }
+
   factory Book.fromJson(Map<String, dynamic> json) => Book(
         id: json['id'],
         name: json['name'],

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:library_management_app/size_config.dart';
+import 'package:library_management_app/view/book_details_view.dart';
 
 import '../models/book.dart';
 
@@ -10,7 +12,9 @@ class BookContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Get.to(() => BookDetailsView(book: book));
+      },
       child: Container(
         margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
         width: SizeConfig.blockSizeHorizontal * 30,

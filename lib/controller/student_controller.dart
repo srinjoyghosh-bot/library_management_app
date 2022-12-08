@@ -3,6 +3,7 @@ import 'package:library_management_app/services/student_service.dart';
 
 class StudentController extends GetxController {
   final allStudents = [].obs;
+  final filteredStudents = [].obs;
   final studentService = StudentService();
   final isLoading = false.obs;
   final borrowHistory = [].obs;
@@ -17,8 +18,10 @@ class StudentController extends GetxController {
     final result = await studentService.getAllStudents();
     if (result['status'] == 200) {
       allStudents(result['students']);
+      filteredStudents(result['students']);
     } else {
       allStudents([]);
+      filteredStudents([]);
     }
     isLoading(false);
   }

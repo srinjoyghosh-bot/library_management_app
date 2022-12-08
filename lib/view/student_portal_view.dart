@@ -16,6 +16,7 @@ class StudentPortalView extends StatefulWidget {
 
 class _StudentPortalViewState extends State<StudentPortalView> {
   late StudentController controller;
+  late List students;
 
   @override
   void initState() {
@@ -27,11 +28,13 @@ class _StudentPortalViewState extends State<StudentPortalView> {
 
   void fetch() async {
     await controller.fetchStudents();
+    students = controller.students;
   }
 
   @override
   Widget build(BuildContext context) {
     controller = Get.find<StudentController>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
@@ -57,6 +60,21 @@ class _StudentPortalViewState extends State<StudentPortalView> {
                 onSubmitted: (value) {
                   debugPrint(value);
                 },
+                onChanged: (value) {
+                  // print(value.replaceAll(' ', '').isEmpty);
+                  if (value.replaceAll(' ', '').isEmpty) {
+                    setState(() {
+                      students = controller.students;
+                    });
+                  } else {
+                    setState(() {
+                      students = controller.students
+                          .where(
+                              (student) => student.enrollmentId.contains(value))
+                          .toList();
+                    });
+                  }
+                },
                 keyboardType: TextInputType.number,
                 autofocus: false,
                 decoration: const InputDecoration(
@@ -72,15 +90,15 @@ class _StudentPortalViewState extends State<StudentPortalView> {
                         color: Colors.grey,
                       ),
                     )
-                  : controller.students.isEmpty
+                  : students.isEmpty
                       ? const Center(
                           child: Text('No students'),
                         )
                       : Expanded(
                           child: ListView.builder(
-                            itemBuilder: (_, index) => StudentTile(
-                                student: controller.students[index]),
-                            itemCount: controller.students.length,
+                            itemBuilder: (_, index) =>
+                                StudentTile(student: students[index]),
+                            itemCount: students.length,
                           ),
                         ))
             ],

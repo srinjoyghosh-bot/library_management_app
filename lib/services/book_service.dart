@@ -151,4 +151,50 @@ class BookService {
       return {'status': 500, 'message': 'Some error occurred. Try again.'};
     }
   }
+
+  Future<Map<String, dynamic>> deleteBook(int bookId) async {
+    try {
+      final response = await dio.delete('${baseUrl}book/delete',
+          queryParameters: {
+            'id': bookId,
+          },
+          options: Options(headers: {'Content-Type': 'application/json'}));
+      if (response.statusCode == 200) {
+        return {
+          'status': 200,
+          'message': response.data['message'],
+        };
+      }
+      return {
+        'status': response.statusCode,
+        'message': response.data['message'] ?? 'Could not issue book'
+      };
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+      return {'status': 500, 'message': 'Some error occurred. Try again.'};
+    }
+  }
+
+  Future<Map<String, dynamic>> toggleAvailability(int bookId) async {
+    try {
+      final response = await dio.put('${baseUrl}book/toggle-availability',
+          queryParameters: {
+            'id': bookId,
+          },
+          options: Options(headers: {'Content-Type': 'application/json'}));
+      if (response.statusCode == 200) {
+        return {
+          'status': 200,
+          'message': response.data['message'],
+        };
+      }
+      return {
+        'status': response.statusCode,
+        'message': response.data['message'] ?? 'Could not issue book'
+      };
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+      return {'status': 500, 'message': 'Some error occurred. Try again.'};
+    }
+  }
 }
