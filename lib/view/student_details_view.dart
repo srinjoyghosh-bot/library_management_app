@@ -82,6 +82,30 @@ class _StudentDetailsViewState extends State<StudentDetailsView> {
           ),
           SizedBox(height: SizeConfig.blockSizeVertical * 3),
           Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: SizeConfig.blockSizeHorizontal * 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Total Fine',
+                  style: TextStyle(
+                      fontSize: SizeConfig.blockSizeVertical * 2.5,
+                      color: Colors.blueAccent),
+                ),
+                Obx(
+                  () => Text(
+                    'Rs ${controller.fine}',
+                    style: TextStyle(
+                        fontSize: SizeConfig.blockSizeVertical * 2.5,
+                        color: Colors.red),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: SizeConfig.blockSizeVertical * 2),
+          Padding(
             padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
             child: Text(
               'Borrow History',

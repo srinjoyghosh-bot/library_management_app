@@ -7,11 +7,14 @@ class StudentController extends GetxController {
   final studentService = StudentService();
   final isLoading = false.obs;
   final borrowHistory = [].obs;
+  final borrowFine = 0.obs;
   String errorMessage = '';
 
   List get students => [...allStudents.value];
 
   List get history => [...borrowHistory.value];
+
+  int get fine => borrowFine.value;
 
   Future<void> fetchStudents() async {
     isLoading(true);
@@ -62,9 +65,11 @@ class StudentController extends GetxController {
     isLoading(false);
     if (result['status'] == 200) {
       borrowHistory(result['history']);
+      borrowFine(result['fine']);
     } else {
       errorMessage = result['message'];
       borrowHistory([]);
+      borrowFine(0);
     }
   }
 }

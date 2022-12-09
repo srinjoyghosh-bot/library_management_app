@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeView(),
+      initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => HomeView()),
         GetPage(name: AddBookView.id, page: () => AddBookView()),

@@ -84,23 +84,25 @@ class _StudentPortalViewState extends State<StudentPortalView> {
                   hintStyle: TextStyle(color: Colors.grey),
                 ),
               ),
-              Obx(() => controller.isLoading.value
-                  ? const Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.grey,
-                      ),
-                    )
-                  : students.isEmpty
-                      ? const Center(
-                          child: Text('No students'),
-                        )
-                      : Expanded(
-                          child: ListView.builder(
-                            itemBuilder: (_, index) =>
-                                StudentTile(student: students[index]),
-                            itemCount: students.length,
-                          ),
-                        ))
+              Expanded(
+                child: Obx(() => controller.isLoading.value
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.grey,
+                        ),
+                      )
+                    : students.isEmpty
+                        ? const Center(
+                            child: Text('No students'),
+                          )
+                        : Expanded(
+                            child: ListView.builder(
+                              itemBuilder: (_, index) =>
+                                  StudentTile(student: students[index]),
+                              itemCount: students.length,
+                            ),
+                          )),
+              )
             ],
           ),
         ),

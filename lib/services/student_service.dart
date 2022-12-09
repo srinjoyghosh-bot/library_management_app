@@ -74,6 +74,7 @@ class StudentService {
       if (response.statusCode == 200) {
         return {
           'status': 200,
+          'fine': response.data['fine'],
           'history': List<Borrow>.from(response.data['history']
               .map((history) => Borrow.fromJson(history))),
         };
